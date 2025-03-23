@@ -1,0 +1,47 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #faf3e0;
+    text-align: center;
+  }
+  
+  .container {
+    margin-top: 50px;
+    display: flex;
+    align-items: center; /* Center vertically (if needed) */
+    flex-direction: column; /* Stack items vertically */
+  }
+  
+  .header {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border-radius: 50px;
+    width: 600px;
+  }
+  
+  .upload-form {
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background: skyblue;
+    width: 400px;
+    border-radius: 5px;
+  }
+
+  .choose {
+    text-align: center;
+    margin-left: 70px;
+}
+
+  .sub-btn{
+    width: 70px;
+    height: 40px;
+    border-radius: 50px;
+  }
+  
+  .uploaded-image {
+    width: 300px;
+    height: auto;
+    margin-top: 20px;
+  }
+  

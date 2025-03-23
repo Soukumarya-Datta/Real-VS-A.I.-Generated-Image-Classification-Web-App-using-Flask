@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, flash
 import numpy as np
 from keras.models import load_model
 from keras.preprocessing import image
 
 app = Flask(__name__)
+app.secret_key = "supersecretkey"  # Required for flash messages
 
 dic = {0 : 'Real', 1 : 'A.I.'}
 
@@ -25,21 +26,32 @@ def predict_label(img_path):
 def main():
 	return render_template("index.html")
 
-@app.route("/about")
-def about_page():
-	return "Please subscribe  Artificial Intelligence Hub..!!!"
+# @app.route("/about")
+# def about_page():
+# 	return "Hello World!"
 
-@app.route("/submit", methods = ['GET', 'POST'])
+@app.route("/submit", methods=['GET', 'POST'])
 def get_output():
-	if request.method == 'POST':
-		img = request.files['my_image']
+    if request.method == 'POST':
+        
+        # Check if a file was uploaded
+        if "my_image" not in request.files or request.files["my_image"].filename == "":
+            flash("⚠️ Please upload an image before submitting!")
+            return redirect(request.url)
 
-		img_path = "static/" + img.filename	
-		img.save(img_path)
+        img = request.files['my_image']
+        img_path = "static/" + img.filename
 
-		p = predict_label(img_path)
+        try:
+            img.save(img_path)  # Save the uploaded file
+            p = predict_label(img_path)  # Make prediction
+        except PermissionError:
+            flash("❌ Permission error! Unable to save the file.")
+            return redirect(request.url)
 
-	return render_template("index.html", prediction = p, img_path = img_path)
+        return render_template("index.html", prediction=p, img_path=img_path)
+
+    return render_template("index.html")
 
 
 if __name__ =='__main__':
