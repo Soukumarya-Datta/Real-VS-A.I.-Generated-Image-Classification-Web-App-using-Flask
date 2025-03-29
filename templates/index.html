@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Image Classification</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+  <h1 class="header">🤖 Real vs AI Image Classification</h1>
+
+  <form class="upload-form" action="/submit" method="post" enctype="multipart/form-data">
+    <label for="imageUpload"><b>Upload Your Image:</b></label>
+    <br>
+    <br>
+    <input class="choose" type="file" id="imageUpload" name="my_image">
+    <br>
+    <br>
+    <br>
+    <button class="sub-btn" type="submit">Submit</button>
+  </form>
+  
+  {% if prediction %}
+  <img src="{{img_path}}" class="uploaded-image">
+  <h2>Your Prediction: <i>{{prediction}}</i></h2>
+  {% endif %}
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div id="flash-message" class="alert alert-warning">
+        {% for message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+<script>
+  // Automatically hide flash message after 5 seconds (5000ms)
+  setTimeout(function() {
+    var flashMessage = document.getElementById("flash-message");
+    if (flashMessage) {
+      flashMessage.style.transition = "opacity 1s ease-out"; // Smooth fade-out over 1 second
+      flashMessage.style.opacity = "0"; // Make it invisible
+      setTimeout(() => flashMessage.style.display = "none", 1000); // Remove after fade-out
+    }
+  }, 2000);
+</script>
+</div>
+
+</body>
+</html>
